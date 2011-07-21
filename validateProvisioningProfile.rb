@@ -1,4 +1,4 @@
-#!/bin/ruby
+#!/usr/bin/ruby
 require "openssl"
 require "rexml/document"
 require "getoptlong"
