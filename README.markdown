@@ -1,4 +1,4 @@
-# What is this #
+# What is this? #
 
 This is a set of scripts (currently only one) written in Ruby to be used in continuos integration (for example using [Jenkins](http://jenkins-ci.org)) to compile iOS projects.
 
