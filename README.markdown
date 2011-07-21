@@ -6,6 +6,9 @@ This is a set of scripts (currently only one) written in Ruby to be used in cont
 
 This scripts helps validate that a given provisioning profile was signed with a given developer certificate, exported as a p12 file.
 
+## Why is this useful? ##
+We compile our applications using [Jenkins](http://jenkins-ci.org) and distribute them OTA using [TestFlight](http://testflightapp.com). It turns out that when running xcodebuild to generate the build, you can sign it with a certificate that doesn't match the provisioning profile you are using. Even worse, the binary will be accepted in TestFlight, and fail when you try to install it.
+
 ## Usage ##
 
 The script accepts the following parameters:
