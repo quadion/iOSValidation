@@ -36,9 +36,15 @@ begin
   certificate = File.read(@options["--certificate"])
 
   p7 = OpenSSL::PKCS7.new(profile)
+  
   cert = OpenSSL::PKCS12.new(certificate, @options["--password"])
 
   store = OpenSSL::X509::Store.new
+
+  # Load Apple CA certificate
+  apple_cert = OpenSSL::X509::Certificate.new(File.read(File.join('certs/', 'AppleIncRootCertificate.cer')))
+  store.add_cert(apple_cert)
+
   p7.verify([], store)
 
   plist = REXML::Document.new(p7.data)
@@ -48,8 +54,10 @@ begin
       keys = ele.next_element
       key = keys.get_elements('//array/data')[0].text
 
-      profile_cert = "-----BEGIN CERTIFICATE-----" + key.gsub(/\t/, "") + "-----END CERTIFICATE-----\n"
+      key = key.scan(/.{1,64}/).join("\n")
 
+      profile_cert = "-----BEGIN CERTIFICATE-----\n" + key.gsub(/\t/, "") + "\n-----END CERTIFICATE-----\n"
+      
       @provisioning_cert = OpenSSL::X509::Certificate.new(profile_cert)
     end
   end
